@@ -15,11 +15,19 @@
             <span class="kiwi-selfuser-host">
                 {{ netUser.username }}@{{ netUser.host }} ( {{ modeString }} )
             </span>
-            <div v-if="networkSupportsAway()" class="u-form kiwi-away-checkbox-form">
-                <label class="kiwi-selfuser-away-label">
-                    <span>{{ $t('away') }}</span>
-                    <input v-model="awayStatus" type="checkbox">
-                </label>
+            <div style="display:flex;">
+                <div v-if="networkSupportsAway()" class="u-form kiwi-away-checkbox-form">
+                    <label class="kiwi-selfuser-away-label">
+                        <span>{{ $t('away') }}</span>
+                        <input v-model="awayStatus" type="checkbox">
+                    </label>
+                </div>
+                <div class="u-form kiwi-away-checkbox-form">
+                    <label class="kiwi-selfuser-callerid-label">
+                        <span>{{ $t('callerID') }}</span>
+                        <input v-model="calleridStatus" type="checkbox">
+                    </label>
+                </div>
             </div>
         </div>
         <div v-else class="kiwi-selfuser-actions">
@@ -77,7 +85,22 @@ export default {
                 return this.network.currentUser().away;
             },
             set(val) {
+                //console.log('away', val);
                 this.network.ircClient.raw('AWAY', val ? 'Currently away' : '');
+            },
+        },
+        calleridStatus: {
+            get() {
+                console.log('MODES:',kiwi.state.getActiveNetwork().ircClient.user.modes.has('g'))
+                if (kiwi.state.getActiveNetwork().ircClient.user.modes.has('g')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            set(val) {
+                //console.log('modeg', val);
+                this.network.ircClient.raw('UMODE', val ? '+g' : '-g');
             },
         },
     },

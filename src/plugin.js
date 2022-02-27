@@ -6,12 +6,13 @@ import callerList from './components/callerList.vue';
 import './style.css'
 
 kiwi.plugin('caller-id', function(kiwi, log) {
+    kiwi.replaceModule('components/SelfUser', CustomSelfUser);
     
     kiwi.on('irc.raw.718', function(command, event, network){
         let nick = event.params[1];
         let buffer = kiwi.state.getActiveBuffer();
 
-        let component = new callCard(); component.$mount();
+        let component = new kiwi.Vue(callCard); component.$mount();
         
         let message = {
             time: Date.now(),
@@ -39,7 +40,7 @@ kiwi.plugin('caller-id', function(kiwi, log) {
         let nick = event.params[1];
         let buffer = kiwi.state.getActiveBuffer();
 
-        let component = new callenableCard(); component.$mount();
+        let component = new kiwi.Vue(callenableCard); component.$mount();
         
         let message = {
             time: Date.now(),
@@ -55,8 +56,7 @@ kiwi.plugin('caller-id', function(kiwi, log) {
         event.handled = true;
         return;
     })
-    
-    kiwi.replaceModule('components/SelfUser', CustomSelfUser);
+
     kiwi.addTab('server', 'CallerID', callerList);
     
 })
