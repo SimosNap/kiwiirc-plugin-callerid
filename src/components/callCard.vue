@@ -15,7 +15,7 @@
             accept: function accept() {
 
                 let network = window.kiwi.state.getActiveNetwork();
-                kiwi.state.$emit('input.raw', '/ACCEPT '+ this.nick );
+                kiwi.state.$emit('input.raw', '/ACCEPT +'+ this.nick );
                 kiwi.state.getOrAddBufferByName(network.id, this.nick);
                 kiwi.state.setActiveBuffer(network.id, this.nick);
                 //kiwi.state.$emit('input.raw', '/NOTICE '+ this.nick + ' Il tuo messaggio è stato accettato');

@@ -10,9 +10,13 @@ kiwi.plugin('caller-id', function(kiwi, log) {
     
     kiwi.on('irc.raw.718', function(command, event, network){
         let nick = event.params[1];
+        console.log('NICK:', nick);
         let buffer = kiwi.state.getActiveBuffer();
 
-        let component = new kiwi.Vue(callCard); component.$mount();
+        const Component = kiwi.Vue.extend(callCard); const callCardComponent = new Component({ propsData: { nick: nick } });
+
+        
+        callCardComponent.$mount();
         
         let message = {
             time: Date.now(),
@@ -20,7 +24,7 @@ kiwi.plugin('caller-id', function(kiwi, log) {
             message: 'nick',
             type: 'callerid',
             tags: event.tags || {},
-            bodyTemplate: component,
+            bodyTemplate: callCardComponent,
         };
         
         kiwi.state.addMessage(buffer, message);
@@ -40,7 +44,9 @@ kiwi.plugin('caller-id', function(kiwi, log) {
         let nick = event.params[1];
         let buffer = kiwi.state.getActiveBuffer();
 
-        let component = new kiwi.Vue(callenableCard); component.$mount();
+        const eComponent = kiwi.Vue.extend(callenableCard); const callenableCardComponent = new eComponent({ propsData: { nick: nick } });
+        
+        callenableCardComponent.$mount();
         
         let message = {
             time: Date.now(),
@@ -48,7 +54,7 @@ kiwi.plugin('caller-id', function(kiwi, log) {
             message: 'nick',
             type: 'callerid',
             tags: event.tags || {},
-            bodyTemplate: component,
+            bodyTemplate: callenableCardComponent,
         };
         
         //
