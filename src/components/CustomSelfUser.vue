@@ -85,13 +85,11 @@ export default {
                 return this.network.currentUser().away;
             },
             set(val) {
-                //console.log('away', val);
                 this.network.ircClient.raw('AWAY', val ? 'Currently away' : '');
             },
         },
         calleridStatus: {
             get() {
-                console.log('MODES:',kiwi.state.getActiveNetwork().ircClient.user.modes.has('g'))
                 if (kiwi.state.getActiveNetwork().ircClient.user.modes.has('g')) {
                     return true;
                 } else {
@@ -99,7 +97,6 @@ export default {
                 }
             },
             set(val) {
-                //console.log('modeg', val);
                 this.network.ircClient.raw('UMODE', val ? '+g' : '-g');
             },
         },
