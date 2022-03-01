@@ -1,4 +1,5 @@
 import CustomSelfUser from './components/CustomSelfUser.vue';
+//import UserBoxAccept from './components/UserBoxAccept.vue';
 import callCard from './components/callCard.vue';
 import callenableCard from './components/callenableCard.vue';
 import callerList from './components/callerList.vue';
@@ -8,14 +9,75 @@ import './style.css'
 kiwi.plugin('caller-id', function(kiwi, log) {
     kiwi.replaceModule('components/SelfUser', CustomSelfUser);
     
+    kiwi.on('buffer.new', function(event){
+
+        if ((kiwi.state.getActiveNetwork().ircClient.user.modes.has('g')) && (event.buffer.isQuery())) {
+
+            var mynick = kiwi.state.getActiveNetwork().nick;
+            //var buffer = kiwi.state.getActiveBuffer();
+            
+            kiwi.state.addMessage(event.buffer,
+                {
+                    'message': '⚠ Caller ID attivo, accertati che ' + event.buffer.name + ' sia presente nella tua Whitelist prima di inviare un messaggio',
+                    'bodyTemplate': '',
+                    'nick': '',
+                    'ident': 'INFO',
+                    'hostname': 'INFO',
+                    'type' : 'error',
+                    'target': mynick,
+                }
+            );
+            
+        }
+    })
+    
+    kiwi.on('irc.raw.456', function(command, event, network){
+
+            var mynick = kiwi.state.getActiveNetwork().nick;
+            //var buffer = kiwi.state.getActiveBuffer();
+            let buffer = kiwi.state.getActiveBuffer();
+            
+            kiwi.state.addMessage(buffer,
+                {
+                    'message': '⚠ La tua Caller ID whitelist è piena',
+                    'bodyTemplate': '',
+                    'nick': '',
+                    'ident': 'INFO',
+                    'hostname': 'INFO',
+                    'type' : 'error',
+                    'target': mynick,
+                }
+            );
+        
+    });
+
+    kiwi.on('irc.raw.457', function(command, event, network){
+
+            var mynick = kiwi.state.getActiveNetwork().nick;
+            //var buffer = kiwi.state.getActiveBuffer();
+            let buffer = kiwi.state.getActiveBuffer();
+            
+            kiwi.state.addMessage(buffer,
+                {
+                    'message': '⚠ ' + event.params[1] + ' è già presente nella tua Whitelist',
+                    'bodyTemplate': '',
+                    'nick': '',
+                    'ident': 'INFO',
+                    'hostname': 'INFO',
+                    'type' : 'error',
+                    'target': mynick,
+                }
+            );
+        
+    });
+    
     kiwi.on('irc.raw.718', function(command, event, network){
         let nick = event.params[1];
-        console.log('NICK:', nick);
         let buffer = kiwi.state.getActiveBuffer();
 
-        const Component = kiwi.Vue.extend(callCard); const callCardComponent = new Component({ propsData: { nick: nick } });
+        const Component = kiwi.Vue.extend(callCard);
+        const callCardComponent = new Component({ propsData: { nick: nick } });
 
-        
         callCardComponent.$mount();
         
         let message = {
@@ -44,7 +106,8 @@ kiwi.plugin('caller-id', function(kiwi, log) {
         let nick = event.params[1];
         let buffer = kiwi.state.getActiveBuffer();
 
-        const eComponent = kiwi.Vue.extend(callenableCard); const callenableCardComponent = new eComponent({ propsData: { nick: nick } });
+        const eComponent = kiwi.Vue.extend(callenableCard);
+        const callenableCardComponent = new eComponent({ propsData: { nick: nick } });
         
         callenableCardComponent.$mount();
         
@@ -64,5 +127,7 @@ kiwi.plugin('caller-id', function(kiwi, log) {
     })
 
     kiwi.addTab('server', 'CallerID', callerList);
+    //const UserButton = new kiwi.Vue(UserBoxAccept); UserButton.$mount();
+    //kiwi.addUi('userbox_button', UserButton.$el);
     
 })

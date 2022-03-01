@@ -2,7 +2,8 @@
     <div class="caller-id-container">
         <span class="caller-id-icon" title="Info"><i class="fa fa-bell fa-2x"></i></span>
         <div class="caller-id-message">
-            <div><a title="Info" class="kiwi-nick" :data-nick="nick"><i class="fa fa-question-circle" aria-hidden="true" style="margin-right:2.5px;"></i>{{ nick }}</a> chiede di avviare una conversazione privata <div><button class="u-button-primary" @click="accept()">Accetta</button> <button class="u-button-primary">Rifiuta</button></div></div>
+            <div><a title="Info" class="kiwi-nick" :data-nick="nick"><i class="fa fa-question-circle" aria-hidden="true" style="margin-right:2.5px;"></i>{{ nick }}</a> ti ha chiesto di avviare una conversazione privata.</div>
+            <div>Vuoi autorizzare <a title="Info" class="kiwi-nick" :data-nick="nick">{{ nick }}</a> e aprire una query? <button class="u-button-primary callerid-button" @click="accept()">Autorizza</button></div>
         </div>
     </div>
 </template>

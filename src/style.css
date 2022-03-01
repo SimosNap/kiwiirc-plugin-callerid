@@ -1,5 +1,5 @@
 .caller-id-container {
-    display: flex; width:480px; height:40px; max-height: 40px; cursor: pointer;border:1px solid rgba(0,0,0,0.2);border-radius:5px;
+    display: flex; width: fit-content; min-width: 480px; min-height: 40px; cursor: pointer;border:1px solid rgba(0,0,0,0.2);border-radius:5px;
     align-items: center;
     background: rgba(204, 204, 204, 0.15);
     margin-bottom:5px;
@@ -8,6 +8,7 @@
 .caller-id-icon {
     margin-left: 5px;
     opacity: 0.5;
+    font-size: 90%;
 }
 
 .caller-id-message {
@@ -21,6 +22,12 @@
 .caller-id-message-info {
     font-size:80%;
     font-weight: bold;
+}
+
+.callerid-error {
+    font-style: italic;
+    text-align: center;
+    opacity: 0.5;
 }
 
 /* ---- Ignore List ( callerlist.vue ) ---- */
@@ -74,9 +81,18 @@
     padding-left: 20px;
 }
 
+.callerid-button {
+    border-radius: 3px;
+}
+
+.callerid-tab-inputs {
+    background: var(--brand-default-bg) !important;
+}
+
 @media screen and (max-width: 769px) {
 
     .caller-id-container {
             width:100%;
+            min-width: 0px; 
     }
 }
