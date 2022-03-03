@@ -1,5 +1,5 @@
 import CustomSelfUser from './components/CustomSelfUser.vue';
-//import UserBoxAccept from './components/UserBoxAccept.vue';
+import UserBoxAccept from './components/UserBoxAccept.vue';
 import callCard from './components/callCard.vue';
 import callenableCard from './components/callenableCard.vue';
 import callerList from './components/callerList.vue';
@@ -11,14 +11,14 @@ kiwi.plugin('caller-id', function(kiwi, log) {
     
     kiwi.on('buffer.new', function(event){
 
-        if ((kiwi.state.getActiveNetwork().ircClient.user.modes.has('g')) && (event.buffer.isQuery())) {
+        if ((event.buffer.getNetwork().state === 'connected') && (kiwi.state.getActiveNetwork().ircClient.user.modes.has('g')) && (event.buffer.isQuery())) {
 
             var mynick = kiwi.state.getActiveNetwork().nick;
             //var buffer = kiwi.state.getActiveBuffer();
             
             kiwi.state.addMessage(event.buffer,
                 {
-                    'message': '⚠ Caller ID attivo, accertati che ' + event.buffer.name + ' sia presente nella tua Whitelist prima di inviare un messaggio',
+                    'message': '⚠ Caller ID attivo, accertati che ' + event.buffer.name + ' sia presente nella tua whitelist prima di inviare un messaggio',
                     'bodyTemplate': '',
                     'nick': '',
                     'ident': 'INFO',
@@ -44,7 +44,7 @@ kiwi.plugin('caller-id', function(kiwi, log) {
                     'nick': '',
                     'ident': 'INFO',
                     'hostname': 'INFO',
-                    'type' : 'error',
+                    'type' : 'notice',
                     'target': mynick,
                 }
             );
@@ -127,7 +127,9 @@ kiwi.plugin('caller-id', function(kiwi, log) {
     })
 
     kiwi.addTab('server', 'CallerID', callerList);
-    //const UserButton = new kiwi.Vue(UserBoxAccept); UserButton.$mount();
-    //kiwi.addUi('userbox_button', UserButton.$el);
+    const UserButton = new kiwi.Vue(UserBoxAccept); 
+    //UserButton.$mount();
+    //kiwi.addUi('userbox_button', UserButton.$mount().$el);
+    kiwi.addUi('userbox_button', UserButton);
     
 })
