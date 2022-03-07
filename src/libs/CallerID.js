@@ -4,6 +4,7 @@ export default {
             allowList: {},
             allowCache: [],
             updating: false,
+            lastUpdate: 0,
         };
     },
     created() {
@@ -21,7 +22,7 @@ export default {
             kiwi.state.getActiveNetwork().ircClient.raw('ACCEPT', '*');
         },
         addNick(nick) {
-            kiwi.state.getActiveNetwork().ircClient.raw('ACCEPT', nick);
+            kiwi.state.getActiveNetwork().ircClient.raw('ACCEPT', '+' + nick);
             this.updateList();
         },
         removeNick(nick) {
@@ -29,7 +30,7 @@ export default {
             this.updateList();
         },
         hasNick(nick) {
-            return this.allowList.hasOwnProperty(nick.toUpperCase);
+            return Object.keys(this.allowList).includes(nick.toUpperCase());
         },
         handle281(command, event, network) {
             // console.log('irc.raw.281', event);
@@ -46,6 +47,7 @@ export default {
 
             this.allowCache.length = 0;
             this.updating = false;
+            this.lastUpdate = Date.now();
         },
     },
 };

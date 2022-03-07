@@ -125,6 +125,5 @@ kiwi.plugin('caller-id', function (kiwi, log) {
     // const UserButton = new kiwi.Vue(UserBoxAccept);
     //UserButton.$mount();
     //kiwi.addUi('userbox_button', UserButton.$mount().$el);
-    // kiwi.addUi('userbox_button', UserButton);
-
+    kiwi.addUi('userbox_button', UserBoxAccept, { props: { callerID } });
 })
