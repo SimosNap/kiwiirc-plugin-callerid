@@ -89,6 +89,10 @@
     background: var(--brand-default-bg) !important;
 }
 
+.callerid-userbox-form {
+    margin-top: 0.5em;
+}
+
 @media screen and (max-width: 769px) {
 
     .caller-id-container {

@@ -1,12 +1,11 @@
 <template id="accept-user">
-	<div>
-	    <span>
+	<div v-if="!isSelf">
+	    <form class="u-form callerid-userbox-form">
             <label class="kiwi-user-callerid-label">
-
                 <input v-model="calleridStatus" type="checkbox">
-                <span>Caller ID Whitelist</span>
+                <span>CallerID whitelist</span>
             </label>
-	    </span>
+	    </form>
 	</div>
 </template>
 
@@ -29,6 +28,9 @@
                 set(val) {
                     this.network.ircClient.raw('ACCEPT', val ? '+' + this.user.nick : '-' + this.user.nick);
                 },
+            },
+            isSelf() {
+                return this.user === this.network.currentUser();
             },
         },
         mounted() {
