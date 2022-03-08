@@ -9,10 +9,22 @@ import CallerID from './libs/CallerID.js';
 import './style.css'
 
 kiwi.plugin('caller-id', function (kiwi, log) {
+
+    setDefaultSetting('OnConnect', false);
+    setDefaultSetting('ServicesHost', 'services.simosnap.com');
+
     kiwi.replaceModule('components/SelfUser', CustomSelfUser);
 
     const callerID = new kiwi.Vue(CallerID);
     kiwi.addTab('server', 'CallerID', callerList, { callerID });
+
+    kiwi.on('irc.registered', function (event){
+        if (kiwi.state.setting('plugin-callerid.OnConnect')) {
+            kiwi.state.$emit('input.raw', '/UMODE +g');
+        }
+    });
+    
+
 
     kiwi.on('buffer.new', function (event) {
         const network = event.buffer.getNetwork();
@@ -130,5 +142,11 @@ kiwi.plugin('caller-id', function (kiwi, log) {
     //const UserButton = kiwi.Vue.extend(UserBoxAccept);
     //const UserButtonComponent = new UserButton({ propsData: { callerID } });
     //kiwi.addUi('userbox_button', UserButtonComponent.$mount().$el);
+
+    function setDefaultSetting(name, val) {
+        if (!kiwi.state.getSetting('settings.plugin-callerid.' + name)) {
+            kiwi.state.setSetting('settings.plugin-callerid.' + name, val);
+        }
+    }
     
 })

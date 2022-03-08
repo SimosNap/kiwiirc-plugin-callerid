@@ -28,6 +28,12 @@
                         <input v-model="calleridStatus" type="checkbox">
                     </label>
                 </div>
+                <div class="u-form kiwi-away-checkbox-form">
+                    <label class="kiwi-selfuser-callerid-label">
+                        <span>{{ $t('+R') }}</span>
+                        <input v-model="regonlyStatus" type="checkbox">
+                    </label>
+                </div>
             </div>
         </div>
         <div v-else class="kiwi-selfuser-actions">
@@ -98,6 +104,18 @@ export default {
             },
             set(val) {
                 this.network.ircClient.raw('UMODE', val ? '+g' : '-g');
+            },
+        },
+        regonlyStatus: {
+            get() {
+                if (kiwi.state.getActiveNetwork().ircClient.user.modes.has('R')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            set(val) {
+                this.network.ircClient.raw('UMODE', val ? '+R' : '-R');
             },
         },
     },

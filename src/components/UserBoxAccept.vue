@@ -1,5 +1,5 @@
 <template id="accept-user">
-	<div v-if="!isSelf">
+	<div v-if="!isSelf && !isService">
 	    <form class="u-form callerid-userbox-form">
             <label class="kiwi-user-callerid-label">
                 <input v-model="calleridStatus" type="checkbox">
@@ -31,6 +31,9 @@
             },
             isSelf() {
                 return this.user === this.network.currentUser();
+            },
+            isService() {
+                return this.user.host === kiwi.state.setting('plugin-callerid.ServicesHost');
             },
         },
         mounted() {
