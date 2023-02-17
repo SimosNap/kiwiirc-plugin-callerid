@@ -23,8 +23,6 @@ kiwi.plugin('caller-id', function (kiwi, log) {
             kiwi.state.$emit('input.raw', '/UMODE +g');
         }
     });
-    
-
 
     kiwi.on('buffer.new', function (event) {
         const network = event.buffer.getNetwork();
@@ -34,7 +32,6 @@ kiwi.plugin('caller-id', function (kiwi, log) {
 
         if (network.ircClient.user.modes.has('g')) {
             const nick = network.nick;
-            //var buffer = kiwi.state.getActiveBuffer();
 
             kiwi.state.addMessage(event.buffer, {
                 'message': '⚠ Caller ID attivo, accertati che ' + event.buffer.name + ' sia presente nella tua whitelist prima di inviare un messaggio',

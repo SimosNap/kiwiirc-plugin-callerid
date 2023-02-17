@@ -93,6 +93,19 @@
     margin-top: 0.5em;
 }
 
+.kiwi-user-callerid-label {
+    width: 180px;
+    margin-left: 0px;
+}
+
+.kiwi-userbox-ignoreuser label {
+    width: 180px;
+}
+
+.kiwi-userbox-ignoreuser label span{
+    float: left;
+}
+
 @media screen and (max-width: 769px) {
 
     .caller-id-container {
