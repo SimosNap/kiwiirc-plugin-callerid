@@ -48,6 +48,7 @@ export default {
             this.allowCache.length = 0;
             this.updating = false;
             this.lastUpdate = Date.now();
+            event.handled = true;
         },
     },
 };
