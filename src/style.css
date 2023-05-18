@@ -102,10 +102,6 @@
     width: 180px;
 }
 
-.kiwi-userbox-ignoreuser label span{
-    float: left;
-}
-
 @media screen and (max-width: 769px) {
 
     .caller-id-container {
